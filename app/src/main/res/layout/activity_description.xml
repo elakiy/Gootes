@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/fab_margin">
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        style="@style/HeaderBar"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <ImageView
         android:id="@+id/img1"
         android:layout_width="230dp"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:layout_below="@+id/toolbar"
         android:contentDescription="@string/product_image"
         android:src="@drawable/apple2" />
 
@@ -22,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/img1"
         android:textStyle="bold"
-        android:text="@string/name" />
+        android:text="@string/prodname" />
 
     <TextView
         android:id="@+id/product_quantity"
@@ -51,8 +58,8 @@
         android:layout_alignParentRight="true">
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
             android:backgroundTint="@color/colorWhite"
             android:src="@drawable/ic_minus" />
 
@@ -63,8 +70,8 @@
             android:text="1" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
             android:backgroundTint="@color/colorWhite"
             android:src="@drawable/ic_plus" />
 

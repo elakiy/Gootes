@@ -1,10 +1,11 @@
-package com.wankys.www.gootes;
+package com.wankys.www.gootes.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,23 +14,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.wankys.www.gootes.Fragments.FragmentHome;
+import com.wankys.www.gootes.Fragments.FragmentNotification;
+import com.wankys.www.gootes.Fragments.FragmentProfile;
+import com.wankys.www.gootes.R;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //creating fragments for bottomnavigation
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(btmOnNavigationItemSelectedListener);
+
+        loadfragment(new FragmentHome());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        
         return true;
     }
 
@@ -66,8 +73,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.shopping_cart) {
+
+            Intent checkoutpage = new Intent(MainActivity.this,Checkout.class);
+            startActivity(checkoutpage);
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,5 +105,42 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    BottomNavigationView.OnNavigationItemSelectedListener btmOnNavigationItemSelectedListener = new
+            BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Fragment fragment = null;
+
+            switch (item.getItemId()){
+                case R.id.home:
+                    fragment = new FragmentHome();
+                    break;
+
+                case R.id.notification:
+                    fragment = new FragmentNotification();
+                    break;
+
+                case R.id.profile:
+                    fragment = new FragmentProfile();
+                    break;
+
+            }
+            return loadfragment(fragment);
+        }
+    };
+
+    public boolean loadfragment(Fragment fragment){
+
+        if(fragment !=null){
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.frame_layout,fragment).
+                    commit();
+            return true;
+        }
+        return false;
     }
 }
